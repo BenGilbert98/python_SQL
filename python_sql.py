@@ -12,8 +12,8 @@ import pandas as pd
 #
 # server = 'databases1.spartaglobal.academy'
 # database = 'Northwind'
-# username = '***'
-# password = '******'
+# username = 'SA'
+# password = 'Passw0rd2018'
 # driver = '{ODBC Driver 17 for SQL Server}'
 #
 # # connection = pyodbc.connect (server information, username, password)

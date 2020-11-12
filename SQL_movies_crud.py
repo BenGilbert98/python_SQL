@@ -55,10 +55,11 @@ def sql_query():
 
 def sql_to_csv():
     query = input("Please enter your sql query    ")
+    file_name = input("Please enter a file name    ")
     exported_data = pd.read_sql_query(f'{query}', conn)
     df_2 = pd.DataFrame(exported_data)
     print(df_2)
-    df_2.to_csv(r'C:\Users\bengi\PycharmProjects\python_SQL\imdbtitlesfromsqlten.csv')
+    df_2.to_csv(fr'C:\Users\bengi\PycharmProjects\python_SQL\{file_name}.csv')
 
 
-sql_query()
+sql_to_csv()

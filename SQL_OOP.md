@@ -20,6 +20,7 @@ Away we go....
 !!!Important Note!!! It would be more efficient to write the SQL query to find the data and compute the value and simply return the value in Python. 
 
 ## Solution
+### Main File (nw_runner)
 - The main file (nw_runner) is created
 - An instance of the Query class is created with argument "Products"
 - The functions query and stock are called
@@ -31,9 +32,9 @@ products.query()
 products.stock()
 ```
 
-
+### Defining Class
 - The first step is to import pyodbc as we will be querying a database
-- Next, a class is defined with attributes of servxer, database, username, password, driver and table_name
+- Next, a class is defined with attributes of server, database, username, password, driver and table_name
 ``` python
 class Query:
     def __init__(self, table_name):
@@ -44,32 +45,30 @@ class Query:
         self.driver = '{ODBC Driver 17 for SQL Server}'
         self.table_name = table_name
 ```
-- A method to find the average unit price is established:
-```
-  def query(self):
+### Query Method
+- A method to find the average unit price is established
+- connection to the database and cursor is established using 
+``` python
+def query(self):
         connect = pyodbc.connect(
             'DRIVER=' + self.driver + ';SERVER=' + self.server + ';PORT=1433;DATABASE=' + self.database + ';UID=' + self.username + ';PWD=' + self.password)
         cursor = connect.cursor()
-        result = cursor.execute(f'''
-
-                       SELECT AVG(UnitPrice) FROM {self.table_name}
-
-                       ''').fetchone()
-        for i in result:
-            print(i)
 ```
-- The code below is responsible for connecting to the database using the attributes and executing a query which is defined in the cursor.execute statement
-``` python
- connect = pyodbc.connect(
-            'DRIVER=' + self.driver + ';SERVER=' + self.server + ';PORT=1433;DATABASE=' + self.database + ';UID=' + self.username + ';PWD=' + self.password)
-        cursor = connect.cursor()
+- SQL query is executed using 
+```
         result = cursor.execute(f'''
 
                        SELECT AVG(UnitPrice) FROM {self.table_name}
 
                        ''').fetchone()
 ```
-- Then, a method is defined to find the value of the remaining stock which is equal to the unitprice * products in stock
+- For loop defined to print the result
+```
+        print(i)
+```
+### Stock Method
+- A method is defined to find the value of the remaining stock which is equal to the unitprice * products in stock
+- Similarly to the query method, a connection must be established tot he SQL database
 - A for loop is used to iterate through the result and print it in a more user friendly format.
 ``` python
     def stock(self):
@@ -85,7 +84,7 @@ class Query:
             print(i, ":", j)
 ```
 
-- Together:
+## Whole Code
 ```python
 import pyodbc
 

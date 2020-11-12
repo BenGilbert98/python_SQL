@@ -1,11 +1,11 @@
 import pyodbc
 import pandas as pd
 
-data = pd.read_csv(r'C:\Users\bengi\PycharmProjects\python_SQL\imdbtitles.csv')
+file_location = input("Where is the csv file located? ")
+data = pd.read_csv(fr'{file_location}')
 df = pd.DataFrame(data, columns=['titleType', 'primaryTitle', 'originalTitle', 'isAdult', 'startYear', 'endYear',
                                  'runtimeMinutes', 'genres'])
 # print(df)
-
 
 server = 'databases1.spartaglobal.academy'
 database = 'Northwind'
@@ -62,4 +62,22 @@ def sql_to_csv():
     df_2.to_csv(fr'C:\Users\bengi\PycharmProjects\python_SQL\{file_name}.csv')
 
 
-sql_to_csv()
+def UI():
+    options = ['create table from csv file', 'insert csv file data', 'sql query', 'delete', 'sql to csv']
+    while True:
+        user_input = input(f"Which method would you like to use? \n {options} \n type exit to leave. \n ")
+        if user_input == "delete":
+            delete()
+        if user_input == "create table from csv file":
+            create()
+        if user_input == "insert csv file data":
+            insert_csv_data()
+        if user_input == "sql query":
+            sql_query()
+        if user_input == "sql to csv":
+            sql_to_csv()
+        elif user_input == "exit":
+            break
+
+
+UI()

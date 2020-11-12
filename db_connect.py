@@ -44,6 +44,6 @@ class Db_connect:
 
 
 table = Db_connect()
-table.create_table()
+# table.create_table()
 table.input_data()
 table.query()

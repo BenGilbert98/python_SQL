@@ -92,7 +92,7 @@ for row in df.itertuples():
 ```
 - Lastly, to export the data back into a new csv file.
 - ```pd.read_sql_query('''SELECT * FROM imdb_movies''', conn)``` is used to read the data from an sql query
-- ```df_2 = pd.DataFrame(exported_data)``` converts the queried data to a datafram
+- ```df_2 = pd.DataFrame(exported_data)``` converts the queried data to a dataframe
 - ```df.to_csv(r'C:\Users\beng\PycharmProjects\python_SQL\imdbtitlesfromsql.csv')``` writes the data into a csv file
 ``` python
 exported_data = pd.read_sql_query('''SELECT * FROM imdb_movies''', conn)

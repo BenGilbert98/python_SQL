@@ -16,7 +16,8 @@ conn = pyodbc.connect(
     'DRIVER=' + driver + ';SERVER=' + server + ';PORT=1433;DATABASE=' + database + ';UID=' + username + ';PWD=' + password)
 cursor = conn.cursor()
 
-cursor.execute('CREATE TABLE imdb_movies (titleType VARCHAR(255), primaryTitle VARCHAR(255), originalTitle VARCHAR(255), isAdult INT, startYear INT, endYear nvarchar(255), runtimeMinutes nvarchar(255), genres nvarchar(255))')
+cursor.execute(
+    'CREATE TABLE imdb_movies (titleType VARCHAR(255), primaryTitle VARCHAR(255), originalTitle VARCHAR(255), isAdult INT, startYear INT, endYear nvarchar(255), runtimeMinutes nvarchar(255), genres nvarchar(255))')
 
 for row in df.itertuples():
     cursor.execute("""
@@ -34,7 +35,7 @@ for row in df.itertuples():
 
     conn.commit()
 
-sql_query = pd.read_sql_query('SELECT * FROM imdb_movies',conn)
+sql_query = pd.read_sql_query('SELECT * FROM imdb_movies', conn)
 print(sql_query)
 
 exported_data = pd.read_sql_query('''SELECT * FROM imdb_movies''', conn)

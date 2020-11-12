@@ -16,8 +16,20 @@ class Query:
         cursor = connect.cursor()
         result = cursor.execute(f'''
 
-                       SELECT AVG(UnitPrice) AS "Average Unit Price" FROM {self.table_name}
+                       SELECT AVG(UnitPrice) FROM {self.table_name}
 
-                       ''').fetchall()
+                       ''').fetchone()
         for i in result:
             print(i)
+
+    def stock(self):
+        connect = pyodbc.connect(
+            'DRIVER=' + self.driver + ';SERVER=' + self.server + ';PORT=1433;DATABASE=' + self.database + ';UID=' + self.username + ';PWD=' + self.password)
+        cursor = connect.cursor()
+        result = cursor.execute(f'''
+
+                               SELECT ProductName, CONVERT(DECIMAL(10,2),UnitsInStock * UnitPrice) FROM {self.table_name}
+
+                               ''').fetchall()
+        for i, j in result:
+            print(i, ":", j)

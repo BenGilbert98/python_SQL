@@ -46,6 +46,23 @@ def insert_csv_data():
         conn.commit()
 
 
+def insert_data():
+    titleType = input("what is the title type for the movie?    ")
+    primaryTitle = input("what is the primary title type for the movie?    ")
+    originalTitle = input("what is the original title type for the movie?    ")
+    isAdult = "0"
+    startYear = input("What is the start year?    ")
+    endYear = input("What is the end year?    ")
+    runtimeMinutes = input("What is the runtime of the movie (minutes)?    ")
+    genres = input("What genre is the movie?    ")
+    cursor.execute(f"""INSERT INTO imdb_movies_ben 
+                        (titleType, primaryTitle, originalTitle, isAdult, startYear, endYear, runtimeMinutes, genres)
+                VALUES 
+                        ('{titleType}', '{primaryTitle}', '{originalTitle}', '{isAdult}', '{startYear}', '{endYear}', '{runtimeMinutes}', '{genres}')
+                """)
+    conn.commit()
+
+
 def sql_query():
     query = input("Please enter your sql query    ")
     exported_data = pd.read_sql_query(f'{query}', conn)
@@ -63,7 +80,7 @@ def sql_to_csv():
 
 
 def UI():
-    options = ['create table from csv file', 'insert csv file data', 'sql query', 'delete', 'sql to csv']
+    options = ['create table from csv file', 'insert csv file data', 'insert data into database', 'sql query', 'delete', 'sql to csv']
     while True:
         user_input = input(f"Which method would you like to use? \n {options} \n type exit to leave. \n ")
         if user_input == "delete":
@@ -76,6 +93,8 @@ def UI():
             sql_query()
         if user_input == "sql to csv":
             sql_to_csv()
+        if user_input == "insert data into database":
+            insert_data()
         elif user_input == "exit":
             break
 

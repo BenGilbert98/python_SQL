@@ -62,7 +62,6 @@ def insert_data():
                 """)
     conn.commit()
 
-
 def sql_query():
     query = input("Please enter your sql query    ")
     exported_data = pd.read_sql_query(f'{query}', conn)

@@ -99,3 +99,110 @@ exported_data = pd.read_sql_query('''SELECT * FROM imdb_movies''', conn)
 df_2 = pd.DataFrame(exported_data)
 df.to_csv(r'C:\Users\beng\PycharmProjects\python_SQL\imdbtitlesfromsql.csv')
 ```
+
+### Functions
+
+#### Delete
+- A delete function was made in which you can delete the table created from the csv file.
+``` python
+def delete():
+    cursor.execute(
+        'DELETE FROM imdb_movies_ben')
+```
+
+#### Create
+- Create function created which creates a table inside Northwind with the corresponding column names.
+``` python
+def create():
+    cursor.execute(
+        'CREATE TABLE imdb_movies_ben (titleType VARCHAR(255), primaryTitle VARCHAR(255), originalTitle VARCHAR(255), isAdult INT, startYear INT, endYear nvarchar(255), runtimeMinutes nvarchar(255), genres nvarchar(255))')
+```
+
+#### Insert_csv_data
+- This function is responsible for inserting the csv file data into the newly created table.
+``` python
+def insert_csv_data():
+    for row in df.itertuples():
+        cursor.execute("""
+            INSERT INTO imdb_movies_ben (titleType, primaryTitle, originalTitle, isAdult, startYear, endYear, runtimeMinutes, genres)
+            VALUES (?, ?, ?, ?, ?, ?, ?, ?)
+            """,
+                       row.titleType,
+                       row.primaryTitle,
+                       row.originalTitle,
+                       row.isAdult,
+                       row.startYear,
+                       row.endYear,
+                       row.runtimeMinutes,
+                       row.genres)
+
+        conn.commit()
+```
+
+#### Insert Data
+- This function will take user inputs for each column name and insert it into the table created above.
+- Commit is used to push the changes to the database
+``` python
+def insert_data():
+    titleType = input("what is the title type for the movie?    ")
+    primaryTitle = input("what is the primary title type for the movie?    ")
+    originalTitle = input("what is the original title type for the movie?    ")
+    isAdult = "0"
+    startYear = input("What is the start year?    ")
+    endYear = input("What is the end year?    ")
+    runtimeMinutes = input("What is the runtime of the movie (minutes)?    ")
+    genres = input("What genre is the movie?    ")
+    cursor.execute(f"""INSERT INTO imdb_movies_ben 
+                        (titleType, primaryTitle, originalTitle, isAdult, startYear, endYear, runtimeMinutes, genres)
+                VALUES 
+                        ('{titleType}', '{primaryTitle}', '{originalTitle}', '{isAdult}', '{startYear}', '{endYear}', '{runtimeMinutes}', '{genres}')
+                """)
+    conn.commit()
+```
+
+#### SQL Query
+- This function will take an SQL query statement from the user and execute it.
+- The result is then displayed to the user.
+``` python
+def sql_query():
+    query = input("Please enter your sql query    ")
+    exported_data = pd.read_sql_query(f'{query}', conn)
+    df_2 = pd.DataFrame(exported_data)
+    print(df_2)
+```
+
+#### SQL to CSV
+- This function will take an sql query and desired file name, execute and display the data and then save it within a csv file.
+``` python
+def sql_to_csv():
+    query = input("Please enter your sql query    ")
+    file_name = input("Please enter a file name    ")
+    exported_data = pd.read_sql_query(f'{query}', conn)
+    df_2 = pd.DataFrame(exported_data)
+    print(df_2)
+    df_2.to_csv(fr'C:\Users\bengi\PycharmProjects\python_SQL\{file_name}.csv')
+```
+
+#### UI
+- This function displays the options available to the user and takes input to determine which function to carry out.
+- While loop is used to keep prompting the user until "exit" is typed
+``` python
+def UI():
+    options = ['create table from csv file', 'insert csv file data', 'insert data into database', 'sql query', 'delete', 'sql to csv']
+    while True:
+        user_input = input(f"Which method would you like to use? \n {options} \n type exit to leave. \n ")
+        if user_input == "delete":
+            delete()
+        if user_input == "create table from csv file":
+            create()
+        if user_input == "insert csv file data":
+            insert_csv_data()
+        if user_input == "sql query":
+            sql_query()
+        if user_input == "sql to csv":
+            sql_to_csv()
+        if user_input == "insert data into database":
+            insert_data()
+        elif user_input == "exit":
+            break
+```
